@@ -7,10 +7,15 @@ resource "docker_image" "nginx" {
 
 resource "docker_container" "nginx" {
   image = docker_image.nginx.image_id
-  name  = "foo"
+  name  = "static-web-site"
 
   ports {
     internal = 80
     external = 8000
+  }
+
+  volumes {
+    host_path      = "${path.cwd}/website"
+    container_path = "/usr/share/nginx/html"
   }
 }
